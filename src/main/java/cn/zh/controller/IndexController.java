@@ -20,6 +20,13 @@ public class IndexController {
     @Resource
     private InfoService infoService;
 
+    @RequestMapping("/")
+    public String idex(Model model) {
+        List<Info> infoList = infoService.findAll();
+        model.addAttribute("infoList", infoList);
+        return "index";
+
+    }
     @RequestMapping("/index")
     public String getAllInfo(Model model) {
         List<Info> infoList = infoService.findAll();
