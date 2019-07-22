@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改信息</title>
+</head>
+<body>
+<form>
+    <table>
+        <tr><input type="hidden" id="id" th:value="${info.id}"/>
+            <td>姓名</td>
+            <td><input type="text" name="name" th:value="${info.name}"/></td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td><input type="radio" th:attr="checked=${info.sex=='男'?true:false}" name="sex" value="1">男</input>
+                <input type="radio" th:attr="checked=${info.sex=='女'?true:false}" name="sex" value="0"/>女</input></td>
+        </tr>
+        <tr>
+            <td>年龄</td>
+            <td><input type="number" name="age" th:value="${info.age}"/></td>
+        </tr>
+        <tr>
+            <td>身份证号</td>
+            <td><input type="text" name="idCard" th:value="${info.idCard}"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="button" value="提交" onclick="check()"/><input type="button" value="返回"
+                                                                                      onclick="javascript:history.back(-1);"/>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    function check() {
+        var id = $("#id").val();
+        var formdata = $("form").serialize();
+        formdata = decodeURIComponent(formdata, true);
+
+        $.ajax({
+            url: "updateInfo.do",
+            type: "post",
+            data: formdata+"&id="+id,
+            dataType: "json",
+            success: function (data) {
+                if (data.result == "success") {
+                    window.location.href = "index";
+                }
+
+                if (data.result == "fail") {
+                    alert("修改失败");
+                }
+                if (data.result == "nodata") {
+                    alert("非法操作");
+                }
+            }
+        });
+    }
+</script>
+</html>

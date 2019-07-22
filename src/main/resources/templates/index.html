@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<a href="addInfo">添加</a>
+<table>
+    <tr th:cellpadding="1">
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>身份证号</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="item:${infoList}">
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.age}"></td>
+        <td th:text="${item.sex}"></td>
+        <td th:text="${item.idCard}"></td>
+        <td><a href="#" th:onclick="'javascript:del('+${item.id}+')'">删除</a><a
+                th:href="@{/updateInfo(id=${item.id})}">修改</a></td>
+    </tr>
+</table>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    function del(id) {
+        var flag = confirm("你确定要删除吗？");
+        if (flag) {
+            $.ajax({
+                url: "delInfo.do",
+                data: "id=" + id,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result == "success") {
+                        window.location.href = "index";
+                    }
+
+                    if (data.result == "fail") {
+                        alert("删除失败");
+                    }
+                    if (data.result == "nodata") {
+                        alert("非法操作");
+                    }
+
+                }
+            });
+        }
+    }
+</script>
+</html>

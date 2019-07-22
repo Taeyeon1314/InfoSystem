@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/infosytem?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456admin
+
+  http:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  thymeleaf:
+    cache: false
+
+mybatis:
+  type-aliases-package: cn.zh.pojo
+  mapper-locations: classpath:mapper/*.xml
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  port: 8081

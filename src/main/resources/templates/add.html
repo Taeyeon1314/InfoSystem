@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加信息</title>
+</head>
+<body>
+<form>
+    <table>
+        <tr>
+            <td>姓名</td>
+            <td><input type="text" name="name" id="name"/></td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td><input type="radio" name="sex" value="1" checked="checked">男</input>
+                <input type="radio" name="sex" value="0"/>女</input></td>
+        </tr>
+        <tr>
+            <td>年龄</td>
+            <td><input type="number" name="age"/></td>
+        </tr>
+        <tr>
+            <td>身份证号</td>
+            <td><input type="text" name="idCard"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="button" value="提交" onclick="check()"/><input type="button" value="返回"
+                                                                                      onclick="javascript:history.back(-1);"/>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    function check() {
+        var flag = true;
+        var name = $("#name").val();
+
+        if (name == "" || name == null || name.length < 2) {
+            alert("姓名格式不正确!");
+            flag = false;
+        }
+        if (flag) {
+            var formdata = $("form").serialize();
+            formdata = decodeURIComponent(formdata, true);
+
+            $.ajax({
+                url: "addInfo.do",
+                type: "post",
+                data: formdata,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result == "success") {
+                        window.location.href = "index";
+                    }
+
+                    if (data.result == "fail") {
+                        alert("添加失败");
+                    }
+                    if (data.result == "nodata") {
+                        alert("非法操作");
+                    }
+                }
+            });
+        }
+
+    }
+</script>
+</html>

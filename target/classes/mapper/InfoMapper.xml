@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.zh.dao.InfoDao">
+    <select id="findInfoById" resultType="Info" parameterType="int">
+        select id,name,age,sex,idCard from infos where id=#{id}
+    </select>
+
+    <select id="findAll" resultType="Info">
+        select id,name,age,sex,idCard from infos
+    </select>
+
+    <delete id="delInfoById" parameterType="int">
+        delete from infos where id=#{id}
+    </delete>
+
+    <insert id="addInfo" parameterType="Info">
+        insert into infos(name,age,sex,idCard) values (#{name},#{age},#{sex},#{idCard})
+    </insert>
+
+    <update id="updateInfo" parameterType="Info">
+        update infos
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="age != null">age=#{age},</if>
+            <if test="sex != null">sex=#{sex},</if>
+            <if test="idCard != null">idCard=#{idCard},</if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>
